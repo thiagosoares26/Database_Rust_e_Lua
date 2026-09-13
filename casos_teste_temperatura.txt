@@ -1,0 +1,77 @@
+# casos_teste_temperatura.txt
+# Casos da extensao proposta pelo grupo (prefixo temp_).
+# Formato: comando, seguido da resposta esperada em comentario.
+# Faixa aceita: -90C a 60C (temperaturas plausiveis na superficie
+# terrestre) - por isso os exemplos abaixo sao de clima/corpo, nao de forno.
+
+# --- Celsius explicito ---
+ADD temp_sala 25.3C
+# OK
+GET temp_sala
+# 25.3°C (77.5°F)
+
+# --- Fahrenheit e convertido e ARMAZENADO em Celsius (dia bem quente) ---
+ADD temp_dia_quente 104F
+# OK
+GET temp_dia_quente
+# 40.0°C (104.0°F)
+
+# --- Sem sufixo assume Celsius ---
+ADD temp_corpo 36.6
+# OK
+GET temp_corpo
+# 36.6°C (97.9°F)
+
+# --- Negativo, Fahrenheit ---
+ADD temp_congelador -4F
+# OK
+GET temp_congelador
+# -20.0°C (-4.0°F)
+
+# --- Negativo, Celsius ---
+ADD temp_polo -60C
+# OK
+GET temp_polo
+# -60.0°C (-76.0°F)
+
+# --- Minusculo tambem e aceito para a unidade ---
+ADD temp_lago 15c
+# OK
+GET temp_lago
+# 15.0°C (59.0°F)
+
+# --- Limite superior aceito (60C) ---
+ADD temp_limite_alto 60C
+# OK
+
+# --- Acima do limite superior ---
+ADD temp_acima 60.1C
+# ERRO: temperatura fora da faixa plausível (-90C a 60C)
+
+# --- Limite inferior aceito (-90C) ---
+ADD temp_limite_baixo -90C
+# OK
+
+# --- Abaixo do limite inferior ---
+ADD temp_abaixo -90.1C
+# ERRO: temperatura fora da faixa plausível (-90C a 60C)
+
+# --- Valor vazio (ADD incompleto) ---
+ADD temp_vazio
+# ERRO: uso: ADD chave valor (valor ausente)
+
+# --- Unidade invalida (so C e F sao aceitas) ---
+ADD temp_kelvin 300K
+# ERRO: temperatura deve ser um número, opcionalmente seguido de C ou F (ex.: 36.5C)
+
+# --- Mais de um ponto decimal ---
+ADD temp_malformada 3.6.5C
+# ERRO: temperatura deve ser um número, opcionalmente seguido de C ou F (ex.: 36.5C)
+
+# --- Chave sem prefixo temp_ nao e afetada pela extensao ---
+ADD nome_temp Zezinho
+# OK
+GET nome_temp
+# Zezinho
+
+EXIT
